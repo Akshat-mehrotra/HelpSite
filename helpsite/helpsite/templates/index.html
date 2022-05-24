@@ -1,0 +1,109 @@
+{% extends "base.html"%}
+{% block body %}
+
+<div class="table-responsive-md">
+    <table class="table table-borderless">
+        {% for q in lq %}
+            <tr>
+                <td class="row border rounded m-2 p-2 bg-unsolved" name="{{q.id}}">
+                    <div class="col-sm-3">
+                        {% if q.course %}
+                        <h5>{{ q.course}}</h5>
+                        {% else %}
+                        <h5>{{ q.subject}}</h5>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-sm-5 border-left border-right">
+                        <p> {{ q.desc | truncatechars:200 }}</p>
+                    </div>
+
+                    <div class="col-sm-2 border-right">
+                        <h6 class="text-center"> {{ q.contact | truncatechars:100 }}</h6>
+                    </div>
+
+                    <div class="col-sm border-right">
+                        {% if q.price %}<div class="row"> <h6 class="text-center"> ${{ q.price }}</h6></div> {% endif %}
+                        {% if q.PH %}<div class="row"> <h6 class="text-center"> ${{q.PH}}/Hr </div> {% endif %}
+                    </div>
+                    
+                    {% if q.ip == ip %}
+                    <div class="col-sm-1">
+                        <div class="form-check">
+
+                            {% if not q.solved %}
+                            <label class="form-check-label">
+                              Solved?
+                            </label>
+                                <input class="form-check-input solved_checkbox" type="checkbox" value="" id="{{ q.id }}">
+                            {% else %}
+                            <label class="form-check-label">
+                              Solved?
+                            </label>
+                                <input class="form-check-input solved_checkbox" type="checkbox" value="" id="{{ q.id }}" checked>
+                            {% endif %}
+                          </div>
+                    </div>
+
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<style>
+    .table-borderless td,
+    .table-borderless th {
+        border: 0;
+    }
+
+    .bg-unsolved {
+        background-color: #FF7F7F;
+    }
+
+    
+    .bg-solved {
+        background-color: #90EE90;
+    }
+</style>
+
+<script type="text/javascript">
+    let pre_bg_color;
+
+    {% for q in lq %}
+
+        pre_bg_color = 'bg-unsolved';
+        if("{{q.solved}}" == "True"){
+            pre_bg_color = 'bg-solved';
+        }
+        $("td[name='" + {{q.id}} + "']").addClass(pre_bg_color);
+
+    {% endfor %}
+ 
+    $(".solved_checkbox").change(function(){
+        let url = "/jquery/solved/" + event.target.id + "/";
+        let id = event.target.id;
+
+        $.post(url, 
+        {
+            "checked": event.target.checked,
+            "id": id,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        function(data, status){
+            $("#"+id).prop('checked', data['checked']);
+
+            let bg_color = 'bg-solved';
+            if(data['checked'] == true){
+                $("td[name='" + id + "']").addClass(bg_color);
+            }
+            else{
+                $("td[name='" + id + "']").removeClass(bg_color);
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}
