@@ -1,0 +1,8 @@
+*.sqlite3
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+**/__pycache__
+**/migrations

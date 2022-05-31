@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="row">
+{% for school in schools %}
+    <div class="col-2">
+        <div class='container-col2'><a href="{% url 'school' school %}"> {{ school }}</a></div>
+    </div>
+{% endfor %}
+    </div>
+
+
+{% endblock %}
