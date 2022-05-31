@@ -1,3 +1,0 @@
-schools = [
-    'uiuc',   
-]
