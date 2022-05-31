@@ -1,0 +1,37 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 31, 2022 - 14:15:57
+Django version 3.2.13, using settings 'helpsite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 31, 2022 - 14:16:37
+Django version 3.2.13, using settings 'helpsite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+[31/May/2022 14:17:07] "GET /question/1/ HTTP/1.1" 200 4208
+[31/May/2022 14:17:08] "GET /media/attachments/PXL_20220415_1645193801.jpg HTTP/1.1" 304 0
+Not Found: /favicon.ico
+[31/May/2022 14:17:08] "GET /favicon.ico HTTP/1.1" 404 3194
+[31/May/2022 14:17:09] "GET /school/uiuc/ HTTP/1.1" 200 31515
+[31/May/2022 14:17:13] "GET /static/index.js HTTP/1.1" 304 0
+[2022-05-31 15:13:03 +0000] [1543] [INFO] Starting gunicorn 20.1.0
+[2022-05-31 15:13:03 +0000] [1543] [INFO] Listening at: http://0.0.0.0:8000 (1543)
+[2022-05-31 15:13:03 +0000] [1543] [INFO] Using worker: sync
+[2022-05-31 15:13:03 +0000] [1544] [INFO] Booting worker with pid: 1544
+[2022-05-31 15:13:12 +0000] [1543] [INFO] Handling signal: int
+[2022-05-31 15:13:12 +0000] [1543] [INFO] Shutting down: Master
+[2022-05-31 15:13:21 +0000] [1546] [INFO] Starting gunicorn 20.1.0
+[2022-05-31 15:13:21 +0000] [1546] [INFO] Listening at: http://0.0.0.0:8000 (1546)
+[2022-05-31 15:13:21 +0000] [1546] [INFO] Using worker: sync
+[2022-05-31 15:13:21 +0000] [1547] [INFO] Booting worker with pid: 1547
+Not Found: /static/index.js
+[2022-05-31 15:26:38 +0000] [1546] [INFO] Handling signal: term
+[2022-05-31 15:26:38 +0000] [1547] [INFO] Worker exiting (pid: 1547)
+[2022-05-31 15:26:38 +0000] [1546] [INFO] Shutting down: Master

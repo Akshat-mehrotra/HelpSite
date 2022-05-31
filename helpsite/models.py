@@ -1,6 +1,5 @@
 import os 
-from msilib.schema import ControlEvent
-from tokenize import Triple
+
 from django.db import models
 from django.forms import ModelForm
 from django.forms import ValidationError
