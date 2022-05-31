@@ -6,6 +6,7 @@
 *.ppk
 
 githubaccesstoken.txt
+secret_key
 
 **/__pycache__
 **/migrations
