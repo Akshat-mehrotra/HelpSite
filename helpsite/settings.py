@@ -34,7 +34,7 @@ if not SECRET_KEY:
 DEBUG = True
 server = False
 
-ALLOWED_HOSTS = ['34.197.126.49'] if not server else []
+ALLOWED_HOSTS = ['34.197.126.49'] if server else []
 
 
 # Application definition
@@ -133,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = f"/var/www/{ALLOWED_HOSTS[0]}/static" if not server else None
+STATIC_ROOT = f"/var/www/{ALLOWED_HOSTS[0]}/static" if server else None
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -143,7 +143,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = 'media/'
 
-MEDIA_ROOT = f'/var/www/{ALLOWED_HOSTS[0]}/media/' if not server else BASE_DIR / MEDIA_URL
+MEDIA_ROOT = f'/var/www/{ALLOWED_HOSTS[0]}/media/' if server else BASE_DIR / MEDIA_URL
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
