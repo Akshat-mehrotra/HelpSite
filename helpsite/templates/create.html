@@ -7,7 +7,7 @@
 <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row p-2">
-        <div class="col-sm-6 ">
+        <div class="col-sm-6 col-lg-4">
             <label> Subject: </label>
             <select class="form-control" value="{{ form.subject.value }}" id="subject" name='subject'>
                 
@@ -27,7 +27,7 @@
 
         </div>
         
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-lg-5">
             <label> Course: </label>
             
             <select class="form-control" id="course" name="course" >
@@ -36,6 +36,19 @@
             
             {% if form.course.errors %}
                 {% for error in form.course.errors%}
+                <div class="alert alert-danger" role="alert">
+                    <h6 class="p-0">{{ error }}</h6>
+                </div>
+                {% endfor%}
+            {% endif %}
+
+        </div>
+
+        <div class="col-lg-3">
+            <label> Password: </label>         
+            <input type='text' value="{{form.password.value}}" placeholder="Required if you want to make edits later" class="form-control" name="password" id="password" >
+            {% if form.password.errors %}
+                {% for error in form.password.errors%}
                 <div class="alert alert-danger" role="alert">
                     <h6 class="p-0">{{ error }}</h6>
                 </div>
@@ -176,8 +189,8 @@
                 </select>
             </div>
             
-            {% if form.price.errors %}
-                {% for error in form.price.errors%}
+            {% if form.school.errors %}
+                {% for error in form.school.errors%}
                 <div class="alert alert-danger" role="alert">
                     <h6 class="p-0">{{ error }}</h6>
                 </div>

@@ -4,7 +4,7 @@
 {% block body %}
 
 <div class="row justify-content-around">
-    <div class="col-sm-6 d-flex flex-column pl-3">
+    <div class="col-sm-5 d-flex flex-column pl-3">
         {% if question.course %}
             Course:
             <u>
@@ -18,45 +18,78 @@
         {% endif %}
 
         <div>
-            {% if question.solved %}
-                <h3 class="font-italic" style="color: #001a66;"><u>Solved</u></h3>
+            {% if question.password in request.session.passwords %}
+                {% if question.solved %}
+                    <button type="button" id="{{question.id}}_checkbtn" name="{{q.id}}" class="btn btn-success btn-small solved">
+                        Not Solved?
+                    </button>
+                {% else %}
+                    <button type="button" id="{{question.id}}_checkbtn" name="{{q.id}}" class="btn btn-danger btn-small solved">
+                        Solved?
+                    </button>
+                {% endif %}
             {% else %}
-                <h3 class="font-italic" style="color: #800000;"><u>Not Solved</u></h3>
+                {% if question.solved %}
+                    <h3 class="font-italic" style="color: #001a66;"><u>Solved</u></h3>
+                {% else %}
+                    <h3 class="font-italic" style="color: #800000;"><u>Not Solved</u></h3>
+                {% endif %}
             {% endif %}
         </div>
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-md-3 col-lg-2 d-flex flex-column text-center p-2">
         {% if question.instagram %}
-        <div class="d-flex flex-row"
+        <div>
             Instagram:
             <u>{{ question.instagram }}</u>
         </div>
         {% endif %}
         
         {% if question.email %}
-            <div class="d-flex flex-row">
+            <div>
                 Email: 
                 <u>{{ question.email }}</u>
             </div>
         {% endif %}
 
-        {% if question.Phone %}
-            <div class="d-flex flex-row pb-2">
+        {% if question.phone %}
+            <div>
                 Phone:
-                <u>{{ question.Phone }}</u>
+                <u>{{ question.phone }}</u>
             </div>
         {%endif %}
     </div>
 
-    <div class="col-md-2 d-flex flex-column text-center ">
+    <div class="col-md-3 d-flex flex-column text-center p-2">
         Price offer of:
         <u>
-        {% if question.price %}<div class="p-1">${{ question.price }}</div>{% endif %}
-        {% if question.PH %}<div class="p-1"> ${{question.PH}}/Hr </div> {% endif %}
+        {% if question.price %}<div class="pt-1">${{ question.price }}</div>{% endif %}
+        {% if question.PH %}<div class=""> ${{question.PH}}/Hr </div> {% endif %}
         </u>
     </div>
+    {% if question.password not in request.session.passwords or not request.session.passwords %}
+        <div class="col d-flex p-2 justify-content-center">
+            <form action="{% url 'question' question.id %}" method="POST">
+                {% csrf_token %}
 
+                <div class="form-group">
+                    <label for="password">Want to edit? Enter the password for this question</label>
+                    <input type="text" class="form-control text-center" name="password" placeholder="Enter Password">
+                    <small class="form-text text-muted">its the same one you put in while creating the question.</small>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors%}
+                            <div class="alert alert-danger" role="alert">
+                                <h6 class="p-0">{{ error }}</h6>
+                            </div>
+                        {% endfor%}
+                    {% endif %}
+                    
+                    <input type="submit" hidden/>
+                </div>
+            </form>        
+        </div>
+    {% endif %}
 </div>
 
 <div class="row m-2 rounded border border-secondary  min-vh-100">
@@ -74,13 +107,11 @@
     {% endif %}
 </div>
 
+<script type="text/javascript" src="{% static 'question.js' %}"></script>
 <script type="text/javascript">
-    var extension = $('#attachment').attr('data').split('.').pop();
-    switch (extension) {
-        case 'pdf':
-            $('#attachment').css('height', '100%');
-            break;
-    }
-  </script>   
+    $(".solved").click(function(){
+        change_solved('{{question.id}}', '{{csrf_token}}');
+    });
+</script>   
 
 {% endblock %}

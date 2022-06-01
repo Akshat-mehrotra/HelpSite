@@ -1,15 +1,18 @@
 from datetime import timedelta
+from re import L
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.conf import settings
+from django.db.models import Q
 import mimetypes
 
 from classes import *
 from supportedschools import schools
 
-from .models import Post, PostForm
+from .models import Post
+from .forms import PostForm, questionPasswordForm
 
 def index(request, school):
     school = school.lower()
@@ -53,7 +56,7 @@ def index(request, school):
         context['previouspage'] = None
 
     ip = get_client_ip(request)
-    context['ip'] = ip
+    
     context['lq'] = lq
     context["subjects"] = classes
     return render(request, "index.html", context)
@@ -76,14 +79,30 @@ def create(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
 
-            ip = get_client_ip(request)
-            last_posts = Post.objects.filter(ip=ip, creation_date__gt=timezone.now()-timedelta(minutes=30))
+            last_posts = Post.objects.filter(creation_date__gt=timezone.now()-timedelta(minutes=30))
+            qset = Q()
+            
+            if form.cleaned_data.get('instagram'):
+                qset |= Q(instagram=form.cleaned_data.get('instagram'))
+
+            if form.cleaned_data.get('email'):
+                qset |= Q(instagram=form.cleaned_data.get('email'))
+
+            if form.cleaned_data.get('phone'):
+                qset |= Q(instagram=form.cleaned_data.get('phone'))
+
+            last_posts = last_posts.filter(qset)
+
             if len(last_posts) >= 5:
                 return render(request, "create.html", {"subjects": classes, "schools": schools, "message":"Only 5 questions every 30 mins", })
 
             new_post = form.save(commit=False)
 
-            new_post.ip = ip
+            if request.session.get('passwords'):
+                 request.session['passwords'] = request.session['passwords'].append(new_post.password)
+            else:
+                request.session['passwords'] = [new_post.password]
+
             new_post.attachment = request.FILES.get('attachment')
 
             new_post.save()
@@ -114,6 +133,21 @@ def home(request):
 @xframe_options_sameorigin
 def question(request, id):
     question = get_object_or_404(Post, id=id)
+
+    if request.method == "POST":
+        form = questionPasswordForm(request.POST)
+
+        if form.is_valid():
+            password = question.password
+            if password != form.cleaned_data.get('password'):
+                form.add_error('password', 'Wrong password mate :(')
+                return render(request, "question.html", {"question": question, "form": form})
+
+            if request.session.get('passwords'):
+                 request.session['passwords'] = request.session['passwords'].append(password)
+            else:
+                request.session['passwords'] = [password]
+
     return render(request, "question.html", {"question": question})
 
 def solved(request, id):

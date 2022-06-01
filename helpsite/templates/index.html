@@ -99,7 +99,7 @@
             {% if q.PH %}<div class=""> ${{q.PH}}/Hr </div> {% endif %}
         </div>
             
-        {% if q.ip == ip %}
+        {% if q.password in request.session.passwords %}
         <div class="col text-center pt-2">
             <div class="form-check">
                 <button type="button" id="{{q.id}}_checkbtn" name="{{q.id}}" class="btn btn-secondary btn-small solved">
@@ -117,14 +117,7 @@
 {% endfor %}
 
 <div class="row justify-content-between">
-    <!--
-    <nav class="">
-        <ul class="pagination justify-content-center">
-            <li class="page-item {% if previouspage == None %} disabled {% endif %}"><a class="page-link" href="{% url 'school' 'uiuc' %}?page={{previouspage}}">Previous Page</a></li>
-            <li class="page-item {% if nextpage == None %} disabled {% endif %}"><a class="page-link" href="{% url 'school' 'uiuc' %}?page={{nextpage}}">Next Page</a></li>
-        </ul>
-    </nav>
-    -->
+    
     <div class="col text-center">
         <form method="GET" action="{% url 'school' 'uiuc' %}">
             <input type="text" name="page" value="{{previouspage}}" hidden>
@@ -145,9 +138,5 @@
 </div>
 
 <script type="text/javascript" src="{% static 'index.js' %}"></script>
-<script type="text/javascript">
-    $(".solved").click(function(){
-        change_solved(this.name, '{{csrf_token}}');
-    });
-</script>
+
 {% endblock %}
