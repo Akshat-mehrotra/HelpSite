@@ -5,7 +5,7 @@ from classes import classes, courses
 from supportedschools import schools
 
 class Post(models.Model):
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=50, null=True, blank=True)
     subject = models.CharField(max_length=100, choices=classes)
     course = models.CharField(max_length = 100, null=True, blank=True, )
     desc = models.TextField()

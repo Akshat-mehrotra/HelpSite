@@ -7,7 +7,7 @@ from .models import Post
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        exclude = ('ip', 'creation_date')
+        exclude = ('creation_date',)
 
 
     def clean(self):

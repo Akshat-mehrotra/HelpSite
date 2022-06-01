@@ -1,0 +1,42 @@
+body {
+    font-family: 'Oswald', sans-serif !important;
+}
+
+p {
+    font-weight:300;
+    font-family: sans-serif;
+}
+
+.link-light:hover{
+    color: rgb(145, 143, 143);
+}
+
+.main-container{
+    background-color: #e0e0e0;
+}
+
+.bg-unsolved {
+    background-color: #ffffff;
+}
+
+.bg-solved {
+    background-color: #8c8c8c;
+     
+}
+
+.question_row{
+    transition: transform 0.4s; 
+    color:rgb(0, 0, 0);
+}
+
+.question_row:hover{
+    transform: scale(1.02);
+    cursor: pointer; 
+}
+
+.footnote {
+    text-align: center;
+    right: 0;
+    font-size: small;
+    font-family: monospace;
+}

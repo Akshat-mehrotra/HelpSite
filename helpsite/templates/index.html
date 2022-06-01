@@ -97,19 +97,19 @@
             {% if q.price %}<div class="">${{ q.price }}</div>{% endif %}
             {% if q.PH %}<div class=""> ${{q.PH}}/Hr </div> {% endif %}
         </div>
-            
+        
         {% if q.password in request.session.passwords %}
-        <div class="col text-center pt-2">
-            <div class="form-check">
-                <button type="button" id="{{q.id}}_checkbtn" name="{{q.id}}" class="btn btn-secondary btn-small solved">
-                    {% if q.solved %}
-                        Not Solved?
-                    {% else %}
-                        Solved?
-                    {% endif %}
-                </button>
+            <div class="col text-center pt-2">
+                <div class="form-check">
+                    <button type="button" id="{{q.id}}_checkbtn" name="{{q.id}}" class="btn btn-secondary btn-small solved">
+                        {% if q.solved %}
+                            Not Solved?
+                        {% else %}
+                            Solved?
+                        {% endif %}
+                    </button>
+                </div>
             </div>
-        </div>
         {% endif %}
 
     </div>

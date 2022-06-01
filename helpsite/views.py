@@ -15,7 +15,6 @@ from .forms import PostForm, questionPasswordForm
 
 def index(request, school):
     school = school.lower()
-
     sort = request.GET.get('sort')
     subject = request.GET.get('subject')
     context = {}
@@ -98,14 +97,13 @@ def create(request):
             new_post = form.save(commit=False)
 
             if request.session.get('passwords'):
-                 request.session['passwords'] = request.session['passwords'].append(new_post.password)
+                request.session['passwords'] = request.session['passwords'] + [new_post.password]
             else:
                 request.session['passwords'] = [new_post.password]
 
             new_post.attachment = request.FILES.get('attachment')
 
             new_post.save()
-           
             return redirect('school', new_post.school)
         print(form.errors)
         return render(request, "create.html", {"subjects": classes, "schools": schools, 'form': form})
@@ -143,7 +141,7 @@ def question(request, id):
                 return render(request, "question.html", {"question": question, "form": form})
 
             if request.session.get('passwords'):
-                 request.session['passwords'] = request.session['passwords'].append(password)
+                request.session['passwords'] = request.session['passwords'] + [password]
             else:
                 request.session['passwords'] = [password]
 
