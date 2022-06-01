@@ -93,8 +93,13 @@
 </div>
 
 <div class="row m-2 rounded border border-secondary  min-vh-100">
-    <div class="col border-right border-secondary">
-        <p class="text-center pt-2 pb-2"> {{question.desc}} </p>
+    <div class="col border-right text-center border-secondary">
+        <p class="pt-2 pb-2"> {{question.desc|linebreaks }} </p>
+        {% if question.password in request.session.passwords %}
+            <form action="{% url 'edit' question.id %}">
+                <input class="btn btn-secondary btn-sm" type="submit" value='Edit?'/>
+            </form>
+        {% endif %}
     </div>
 
     {% if question.attachment %}

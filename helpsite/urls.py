@@ -21,13 +21,15 @@ from django.conf.urls.static import static
 from .views import *
 
 urlpatterns = [
+    path('jquery/<slug:subject>/', jqeury_course),
+    path('jquery/solved/<int:id>/', solved),
+
     path('admin/', admin.site.urls, name="admin"),
     path('', home, name="home"),
     path('school/<slug:school>/', index, name="school"),
     path('create/', create, name="create"),
     path('question/<int:id>/', question, name="question"),
-    path('jquery/<slug:subject>/', jqeury_course),
-    path('jquery/solved/<int:id>/', solved),
-    path('download/<path:filename>/', download_file, name='download')
+    path('edit/<int:id>/', edit, name="edit"),
+    path('download/<path:filename>/', download_file, name='download'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

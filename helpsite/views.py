@@ -105,7 +105,6 @@ def create(request):
 
             new_post.save()
             return redirect('school', new_post.school)
-        print(form.errors)
         return render(request, "create.html", {"subjects": classes, "schools": schools, 'form': form})
 
 def download_file(request, filename):
@@ -156,3 +155,26 @@ def solved(request, id):
         question.save()
 
         return JsonResponse({"solved": solved}, status=200)
+
+def edit(request, id):
+    question = get_object_or_404(Post, id=id)
+    
+    if not request.session.get('passwords') or question.password not in request.session.get('passwords'):
+        raise Http404('Access Restricted Suckka')
+
+    form = PostForm(request.POST or None, request.FILES or None, instance=question)
+    
+    if request.method == "POST":
+        if form.is_valid():
+            new_post = form.save(commit=False)
+
+            if request.session.get('passwords'):
+                request.session['passwords'] = request.session['passwords'] + [new_post.password]
+            else:
+                request.session['passwords'] = [new_post.password]
+
+            new_post.attachment = request.FILES.get('attachment')
+
+            new_post.save()
+            return redirect('school', new_post.school)    
+    return render(request, 'edit.html', {"subjects": classes, "schools": schools, "form":form, "question":question})
