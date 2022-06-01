@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from distutils.log import debug
+from distutils.log import server
 from pathlib import Path
 import os
 
@@ -32,8 +32,9 @@ if not SECRET_KEY:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+server = False
 
-ALLOWED_HOSTS = ['34.197.126.49'] if not debug else []
+ALLOWED_HOSTS = ['34.197.126.49'] if not server else []
 
 
 # Application definition
@@ -71,7 +72,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
+                'django.template.context_processors.server',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -132,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = f"/var/www/{ALLOWED_HOSTS[0]}/static" if not debug else None
+STATIC_ROOT = f"/var/www/{ALLOWED_HOSTS[0]}/static" if not server else None
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -142,7 +143,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = 'media/'
 
-MEDIA_ROOT = f'/var/www/{ALLOWED_HOSTS[0]}/media/' if not debug else BASE_DIR / MEDIA_URL
+MEDIA_ROOT = f'/var/www/{ALLOWED_HOSTS[0]}/media/' if not server else BASE_DIR / MEDIA_URL
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
